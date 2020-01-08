@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { StyleSheet, FlatList, View } from 'react-native'
+import { StyleSheet, FlatList, View, YellowBox } from 'react-native'
 import Header from '../components/Header'
 import Post from '../components/Post'
 
@@ -28,6 +28,7 @@ class Feed extends Component {
     }
 
     render() {
+        console.disableYellowBox = true;
         return (
             <View style={styles.container}>
                 <Header />
