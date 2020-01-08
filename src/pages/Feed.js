@@ -20,7 +20,7 @@ class Feed extends Component {
             }]
         }, {
             id: Math.random(),
-            nickname: 'Francisco',
+            nickname: 'Francisco Djow',
             email: 'francisco@gmail.com',
             image: require('../assets/imgs/bw.jpg'),
             comments: []
