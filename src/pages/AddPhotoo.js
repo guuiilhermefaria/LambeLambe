@@ -23,6 +23,32 @@ class AddPhoto extends Component {
         image: null,
         comment: '',
     }
+    pickLocalImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            this.setState({ image: result.uri });
+        }
+    }
+
+    pickCameraImage = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            this.setState({ image: result.uri });
+        }
+    }
+
     pickImage = () => {
         ImagePicker.showImagePicker({
             title: 'Escolha a imagem',
@@ -40,7 +66,7 @@ class AddPhoto extends Component {
     }
 
     render() {
-        return (          
+        return (            
             <KeyboardAwareScrollView
                 enableOnAndroid={true}
                 enableAutomaticScroll={true}
@@ -51,21 +77,67 @@ class AddPhoto extends Component {
                         <View style={styles.imageContainer}>
                             <Image source={this.state.image} style={styles.image} />
                         </View>
-                        <TouchableOpacity onPress={this.pickImage} style={styles.buttom}>
-                            <Text style={styles.buttomText}>Escolha a foto</Text>
-                        </TouchableOpacity>
                         <TextInput
                             placeholder='Algum comentário para a foto?'
                             style={styles.input}
                             value={this.state.comment}
                             onChangeText={comment => this.setState({ comment })}
                         />
-                        <TouchableOpacity onPress={this.save} style={styles.buttom}>
-                            <Text style={styles.buttomText}>Salvar</Text>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
-            </KeyboardAwareScrollView >
+                        <View style={styles.choicesContainer}>
+                            <Text style={styles.butttomText}>Escolha uma foto</Text>
+                            <View style={styles.buttonsContainer}>
+                                <TouchableOpacity
+                                    style={{ alignItems: 'center' }}
+                                    onPress={this.pickLocalImage}
+                                >
+                                    <Icon name='folder' size={30} color="#000" />
+                                    <Text > arquivos</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={{ alignItems: 'center' }}
+                                    onPress={this.pickCameraImage}
+                                >
+                                    <Icon name='camera' size={30} color="#000" />
+                                    <Text >camera</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={{ alignItems: 'center' }}
+                                    onPress={this.save}
+                                >
+                                    <Icon name='share' size={30} color="#000" />
+                                    <Text >share</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View >
+                </ScrollView >
+            </KeyboardAwareScrollView >            
+
+            // <KeyboardAwareScrollView
+            //     enableOnAndroid={true}
+            //     enableAutomaticScroll={true}
+            //     keyboardOpeningTime={0} >
+            //     <ScrollView>
+            //         <View style={styles.container}>
+            //             <Text style={styles.title}>Compartilhe uma imagem</Text>
+            //             <View style={styles.imageContainer}>
+            //                 <Image source={this.state.image} style={styles.image} />
+            //             </View>
+            //             <TouchableOpacity onPress={this.pickImage} style={styles.buttom}>
+            //                 <Text style={styles.buttomText}>Escolha a foto</Text>
+            //             </TouchableOpacity>
+            //             <TextInput
+            //                 placeholder='Algum comentário para a foto?'
+            //                 style={styles.input}
+            //                 value={this.state.comment}
+            //                 onChangeText={comment => this.setState({ comment })}
+            //             />
+            //             <TouchableOpacity onPress={this.save} style={styles.buttom}>
+            //                 <Text style={styles.buttomText}>Salvar</Text>
+            //             </TouchableOpacity>
+            //         </View>
+            //     </ScrollView>
+            // </KeyboardAwareScrollView >
         )
     }
 }

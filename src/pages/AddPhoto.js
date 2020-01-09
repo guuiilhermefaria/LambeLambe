@@ -12,40 +12,43 @@ import {
     Alert
 } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
-import Permissions from 'expo-permissions';
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-
 class AddPhoto extends Component {
     state = {
         image: null,
+        comment: '',
     };
 
     pickLocalImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
+        let res = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1
         });
 
-        console.log(result);
+        console.log(res);
 
-        if (!result.cancelled) {
-            this.setState({ image: result.uri });
+        if (!res.cancelled) {
+            this.setState({ image: res.uri });
         }
     }
 
     pickCameraImage = async () => {
-        let result = await ImagePicker.launchCameraAsync({
+        let res = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1
         });
 
-        console.log(result);
+        console.log(res);
 
-        if (!result.cancelled) {
-            this.setState({ image: result.uri });
+        if (!res.cancelled) {
+            this.setState({ image: res.uri, base64: res.data });
         }
     }
 
@@ -54,6 +57,7 @@ class AddPhoto extends Component {
     }
 
     render() {
+        console.disableYellowBox = true
         let { image } = this.state;
 
         return (
@@ -65,7 +69,7 @@ class AddPhoto extends Component {
                     <View style={styles.container}>
                         <Text style={styles.title}>Compartilhe uma imagem</Text>
                         <View style={styles.imageContainer}>
-                            <Image source={this.state.image} style={styles.image} />
+                            <Image source={{ uri: this.state.image }} style={styles.image} />
                         </View>
                         <TextInput
                             placeholder='Algum comentário para a foto?'
@@ -81,7 +85,7 @@ class AddPhoto extends Component {
                                     onPress={this.pickLocalImage}
                                 >
                                     <Icon name='folder' size={30} color="#000" />
-                                    <Text > arquivos</Text>
+                                    <Text> arquivos</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={{ alignItems: 'center' }}
@@ -121,10 +125,11 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').width / 2,
         backgroundColor: '#eee',
         marginTop: 10,
+        resizeMode: 'contain'
     },
     image: {
         width: '100%',
-        width: Dimensions.get('window').width / 2,
+        height: Dimensions.get('window').width / 2,
         resizeMode: 'contain',
     },
     buttom: {

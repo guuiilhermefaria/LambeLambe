@@ -15,7 +15,7 @@ const MenuRoutes = {
             tabBarIcon: ({ tintColor }) => <Icon name='home' size={30} color={tintColor} />
         }
     },
-    Add: {
+    AddPhoto: {
         name: 'AddPhoto',
         screen: AddPhoto,
         navigationOptions: {
@@ -34,7 +34,7 @@ const MenuRoutes = {
 }
 
 const MenuConfig = {
-    initialRouteName: 'Feed',
+    initialRouteName: 'AddPhoto',
     tabBarOptions: {
         showLabel: false,
     }
