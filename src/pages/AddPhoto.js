@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    Button,
     StyleSheet,
     TouchableOpacity,
     TextInput,
@@ -58,7 +57,6 @@ class AddPhoto extends Component {
 
     render() {
         console.disableYellowBox = true
-        let { image } = this.state;
 
         return (
             <KeyboardAwareScrollView
@@ -130,7 +128,6 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: Dimensions.get('window').width / 2,
-        resizeMode: 'contain',
     },
     buttom: {
         marginTop: 30,
