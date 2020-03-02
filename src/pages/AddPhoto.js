@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { addPost } from '../store/actions/posts'
+
 import {
     View,
     Text,
@@ -30,6 +33,8 @@ class AddPhoto extends Component {
         });
 
         console.log(res);
+        console.log(res.uri)
+        console.log(res.data)
 
         if (!res.cancelled) {
             this.setState({ image: res.uri });
@@ -49,10 +54,24 @@ class AddPhoto extends Component {
         if (!res.cancelled) {
             this.setState({ image: res.uri, base64: res.data });
         }
+        console.log(res.uri)
+        console.log(this.state.image)
     }
 
     save = async () => {
-        Alert.alert('Imagem salva!', this.state.comment)
+        this.props.onAddPost({
+            id: Math.random(),
+            nickname: this.props.name,
+            email: this.props.email,
+            image: this.state.image,
+            comments: [{
+                nickname: this.props.name,
+                comment: this.state.comment,
+            }]
+        })
+
+        this.setState({ image: null, comment: '' })
+        this.props.navigation.navigate('Feed')
     }
 
     render() {
@@ -159,4 +178,18 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AddPhoto
+// export default AddPhoto
+const mapStateToProps = ({ user }) => {
+    return {
+        email: user.email,
+        name: user.name,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddPost: post => dispatch(addPost(post))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPhoto)

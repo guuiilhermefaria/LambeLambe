@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-native'
+import { addComment } from '../store/actions/posts'
 import {
     View,
     Text,
@@ -10,14 +12,22 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-class AddComement extends Component {
+class AddComment extends Component {
     state = {
         comment: '',
         editMode: false
     }
 
     handleAddComment = () => {
-        Alert.alert('Adicionado!', this.state.comment)
+        this.props.onAddComment({
+            postId: this.props.postId,
+            comment: {
+                nickname: this.props.name,
+                comment: this.state.comment,
+            }
+        })
+
+        this.setState({ comment: '', editMode: false })
     }
 
     render() {
@@ -76,4 +86,17 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AddComement
+// export default AddComment
+const mapStateToProps = ({ user }) => {
+    return {
+        name: user.name
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddComment: payload => dispatch(addComment(payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddComment)
