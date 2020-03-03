@@ -8,6 +8,8 @@ import { Provider } from 'react-redux'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createStackNavigator } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/FontAwesome'
+import axios from 'axios'
+
 import Feed from './src/pages/Feed'
 import AddPhoto from './src/pages/AddPhoto'
 import Profile from './src/pages/Profile'
@@ -75,6 +77,8 @@ const MenuConfig = {
 }
 
 const MenuNavigator = createAppContainer(createBottomTabNavigator(MenuRoutes, MenuConfig))
+
+axios.defaults.baseURL = 'https://lambe-9e81f.firebaseio.com/'
 
 const store = storeConfig()
 const Redux = () => {

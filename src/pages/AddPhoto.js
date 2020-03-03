@@ -18,6 +18,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+const noUser = 'Você precisa estar logado para adicionar imagens'
 class AddPhoto extends Component {
     state = {
         image: null,
@@ -25,6 +26,11 @@ class AddPhoto extends Component {
     };
 
     pickLocalImage = async () => {
+        if (!this.props.name) {
+            Alert.alert('Falha!', noUser)
+            return
+        }
+
         let res = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -42,6 +48,11 @@ class AddPhoto extends Component {
     }
 
     pickCameraImage = async () => {
+        if (!this.props.name) {
+            Alert.alert('Falha!', noUser)
+            return
+        }
+
         let res = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -90,6 +101,7 @@ class AddPhoto extends Component {
                         </View>
                         <TextInput
                             placeholder='Algum comentário para a foto?'
+                            editable={this.props.name != null}
                             style={styles.input}
                             value={this.state.comment}
                             onChangeText={comment => this.setState({ comment })}
@@ -109,7 +121,7 @@ class AddPhoto extends Component {
                                     onPress={this.pickCameraImage}
                                 >
                                     <Icon name='camera' size={30} color="#000" />
-                                    <Text >camera</Text>
+                                    <Text>camera</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={{ alignItems: 'center' }}
